@@ -59,6 +59,10 @@ const ForgotPassword = ({ navigation }) => {
                             <Text style={{ fontSize: 16, color: "#8e93a1" }}>NEW PASSWORD</Text>
                             <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
                         </View>
+                        <View style={{ marginHorizontal: 24 }}>
+                            <Text style={{ fontSize: 16, color: "#8e93a1" }}>RESET CODE</Text>
+                            <TextInput style={styles.signupInput} value={resetCode} onChangeText={text => setResetCode(text)} secureTextEntry={true} />
+                        </View>
                     </>
                 )}
                 <TouchableOpacity onPress={visible ? handlePasswordReset : handleSubmit} style={styles.buttonStyle}>

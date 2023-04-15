@@ -15,7 +15,7 @@ const SignIn = ({ navigation }) => {
             alert("All fields are required");
             return;
         }
-        const resp = await axios.post("http://localhost:8000/api/signin", { name, email, password });
+        const resp = await axios.post("http://localhost:8000/api/signin", { email, password });
         console.log(resp.data);
         if (resp.data.error)
             alert(resp.data.error);
