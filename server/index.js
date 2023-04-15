@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth.js");
+const linkRoutes = require("./routes/link.js");
 
 const morgan = require("morgan");
 
@@ -22,5 +23,6 @@ app.use(morgan("dev"));
 
 // routes middleware
 app.use("/api", authRoutes);
+app.use("/api", linkRoutes);
 
 app.listen(8000, () => console.log("Server is running on port 8000"));
