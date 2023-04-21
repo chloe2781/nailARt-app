@@ -4,6 +4,7 @@ import { LinkContext } from "../context/link";
 import axios from "axios";
 import FooterList from "../components/footer/FooterList";
 import LinkView from "./LinkView";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const Home = ({ navigation }) => {
     const [links, setLinks] = useContext(LinkContext);

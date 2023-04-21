@@ -1,5 +1,5 @@
 import { StyleSheet, Text, SafeAreaView, ScrollView, View, Image, TouchableOpacity } from "react-native";
-import React, { userContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import FooterList from "../components/footer/FooterList";
 import axios from "axios";
 import { LinkContext } from "../context/link";

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { WebView } from "react-native-webview";
+// import { WebView } from 'react-native-webview';
+import * as WebBrowser from 'expo-web-browser';
+import { Button } from "react-native";
 
 const LinkView = ({ route }) => {
     const [weblink, setWeblink] = useState("");
@@ -14,7 +16,16 @@ const LinkView = ({ route }) => {
         }
     }, [route.params?.link]);
 
-    return <WebView startInLoadingState source={{ uri: weblink }} />;
+    const handleOpenWebBrowser = async () => {
+        await WebBrowser.openBrowserAsync(weblink);
+    };
+
+    // return <WebView startInLoadingState source={{ uri: weblink }} />;
+    return (
+        // Render a button or a touchable element to open the web page
+        <Button title="Open Web Page" onPress={handleOpenWebBrowser} />
+    );
+
 }
 
 export default LinkView;

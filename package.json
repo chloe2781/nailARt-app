@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "pod-install": "^0.1.38",
+    "react-native-webview": "^12.0.2"
+  }
+}

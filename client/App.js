@@ -7,7 +7,6 @@ import { AuthProvider } from './context/auth';
 import Home from './screens/Home';
 import Navigation from './components/Navigation';
 
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 const Stack = createNativeStackNavigator();

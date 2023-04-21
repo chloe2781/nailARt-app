@@ -4,12 +4,14 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/auth";
+import AppLoading from 'expo-app-loading';
+import theme from '../styles/theme.style';
 
 const SignIn = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [state, setState] = useContext(AuthContext);
-
+    let [fontsLoaded] = theme.useFonts();
     const handleSubmit = async () => {
         if (email === '' || password === '') {
             alert("All fields are required");
@@ -26,46 +28,54 @@ const SignIn = ({ navigation }) => {
             navigation.navigate("Home");
         }
     };
-    return (
-        <KeyboardAwareScrollView contentCotainerStyle={styles.container}>
-            <View style={{ marginVertical: 100 }}>
-                <View style={styles.imageContainer}>
-                    <Image source={require("../assets/icon.png")} style={styles.imageStyles} />
-                </View>
-                <Text style={styles.signupText}>Sign In</Text>
-                <View style={{ marginHorizontal: 24 }}>
-                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>EMAIL</Text>
-                    <TextInput style={styles.signupInput} value={email} onChangeText={text => setEmail(text)} autoCompleteType="email" keyboardType="email-address" />
-                </View>
-                <View style={{ marginHorizontal: 24 }}>
-                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>PASSWORD</Text>
-                    <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplteType="password" />
-                </View>
-                <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>Submit</Text>
-                </TouchableOpacity>
-                <Text style={{ fontSize: 12, textAlign: 'center' }}>
-                    Not yet registered? {" "}
-                    <Text style={{ color: 'darkred', fontWeight: 'bold' }}
-                        onPress={() => navigation.navigate("SignUp")} >
-                        Sign Up
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        return (
+            <KeyboardAwareScrollView contentCotainerStyle={styles.container}>
+
+                <View style={{ marginVertical: 100, backgroundColor: '#ECE9E6', flex: 1 }}>
+                    <View style={styles.imageContainer}>
+                        <Image source={require("../assets/icon.png")} style={styles.imageStyles} />
+                    </View>
+                    <Text style={styles.signupText}>Sign In</Text>
+                    <View style={{ marginHorizontal: 24 }}>
+                        <Text style={{ fontSize: 16, color: '#8e93a1' }}>EMAIL</Text>
+                        <TextInput style={styles.signupInput} value={email} onChangeText={text => setEmail(text)} autoCompleteType="email" keyboardType="email-address" />
+                    </View>
+                    <View style={{ marginHorizontal: 24 }}>
+                        <Text style={{ fontSize: 16, color: '#8e93a1' }}>PASSWORD</Text>
+                        <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplteType="password" />
+                    </View>
+                    <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
+                        <Text style={styles.buttonText}>Submit</Text>
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 12, textAlign: 'center' }}>
+                        Not yet registered? {" "}
+                        <Text style={{ color: 'darkred', fontWeight: 'bold' }}
+                            onPress={() => navigation.navigate("SignUp")} >
+                            Sign Up
+                        </Text>
                     </Text>
-                </Text>
-                <Text onPress={() => navigation.navigate("ForgotPassword")} style={styles.forgetText}>Forgot Password?</Text>
-                <Text style={{ fontSize: 12, textAlign: 'center', marginTop: 10 }}>Forgot Password?</Text>
-            </View>
-        </KeyboardAwareScrollView>
-    )
+                    <Text onPress={() => navigation.navigate("ForgotPassword")} style={styles.forgetText}>Forgot Password?</Text>
+                    <Text style={{ fontSize: 12, textAlign: 'center', marginTop: 10 }}>Forgot Password?</Text>
+                </View>
+            </KeyboardAwareScrollView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     signupText: {
         fontSize: 30,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: theme.colors.dark_blue,
+        fontFamily: theme.fonts.ss_black,
     },
     signupInput: {
         borderBottomWidth: 0.5,
@@ -89,12 +99,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     imageContainer: {
-        justifyContent: "center",
-        alignItems: "center"
+        //     justifyContent: "center",
+        //     alignItems: "left"
+        top: -60,
+        left: 30
     },
     imageStyles: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 48,
         marginVertical: 20
     },
     forgetText: {
@@ -106,4 +118,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SignIn
+export default SignIn;

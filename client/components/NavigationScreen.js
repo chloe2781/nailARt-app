@@ -18,24 +18,29 @@ const NavigationScreen = () => {
     const authenticated = state && state.token !== "" && state.user !== null;
 
     return (
-        <Stack.Navigator initialRouteName="Home">
-            {authenticated ?
-                (
-                    <>
-                        <Stack.Screen name="Home" component={Home} options={{ headerRight: () => <HeaderTabs /> }} />
-                        <Stack.Screen name="Account" component={Account} />
-                        <Stack.Screen name="Post" component={Post} />
-                        <Stack.Screen name="Links" component={Links} />
-                        <Stack.Screen name="LinkView" component={LinkView} />
-                    </>
-                ) : (
-                    <>
-                        <Stack.Screen name="SignIn" component={SignIn} />
-                        <Stack.Screen name="SignUp" component={SignUp} />
-                        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-                    </>
-                )}
-        </Stack.Navigator >
+        <>
+            <Stack.Navigator initialRouteName="Home" screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: '#ECE9E6' }
+            }}>
+                {authenticated ?
+                    (
+                        <>
+                            <Stack.Screen name="Home" component={Home} options={{ headerRight: () => <HeaderTabs /> }} />
+                            <Stack.Screen name="Account" component={Account} />
+                            <Stack.Screen name="Post" component={Post} />
+                            <Stack.Screen name="Links" component={Links} />
+                            <Stack.Screen name="LinkView" component={LinkView} />
+                        </>
+                    ) : (
+                        <>
+                            <Stack.Screen name="SignIn" component={SignIn} />
+                            <Stack.Screen name="SignUp" component={SignUp} />
+                            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+                        </>
+                    )}
+            </Stack.Navigator >
+        </>
     )
 }
 

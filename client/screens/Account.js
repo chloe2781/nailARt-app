@@ -62,7 +62,7 @@ const Account = ({ navigation }) => {
         if (pickerResult.canceled === true) {
             return;
         }
-        let base64Image = 'data:image/jpg;base64,' + pickerResult.base64;
+        let base64Image = `data:image/jpg;base64,${pickerResult.base64}`;
         setUploadImage(base64Image);
 
         let storedData = await AsyncStorage.getItem("auth-rn");
