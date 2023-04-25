@@ -302,8 +302,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     imageContainer: {
-        // justifyContent: "center",
-        // alignItems: "center",
         marginLeft: 30,
     },
     imageStyles: {
@@ -334,22 +332,11 @@ const styles = StyleSheet.create({
         marginBottom: "65%",
     },
     box: {
-        // flex: 1,
         width: "46%",
         aspectRatio: 1,
-        // flexDirection: 'row',
-        // flexWrap: 'wrap',
-        // backgroundColor: theme.colors.gray_gal,
-        // shadowColor: "#171717",
-        // shadowOffset: { width: 10, height: 11 },
-        // shadowOpacity: 0.15,
-        // shadowRadius: 7,
-        // marginBottom: 25,
-        // zIndex: 1,
     },
     boxImageView: {
         marginTop: "5%",
-        // marginLeft: "7%",
         width: "100%",
         height: "100%",
         borderRadius: 40,
