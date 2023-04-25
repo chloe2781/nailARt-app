@@ -10,6 +10,7 @@ import Post from "../screens/Post";
 import Links from "../screens/Links";
 import ForgotPassword from "../screens/ForgotPassword";
 import LinkView from "../screens/LinkView";
+import theme from "../styles/theme.style";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,14 +22,14 @@ const NavigationScreen = () => {
         <>
             <Stack.Navigator initialRouteName="Home" screenOptions={{
                 headerShown: false,
-                contentStyle: { backgroundColor: '#ECE9E6' }
+                contentStyle: { backgroundColor: theme.colors.primary_white },
             }}>
                 {authenticated ?
                     (
                         <>
                             <Stack.Screen name="Home" component={Home} options={{ headerRight: () => <HeaderTabs /> }} />
-                            <Stack.Screen name="Account" component={Account} />
                             <Stack.Screen name="Post" component={Post} />
+                            <Stack.Screen name="Account" component={Account} />
                             <Stack.Screen name="Links" component={Links} />
                             <Stack.Screen name="LinkView" component={LinkView} />
                         </>

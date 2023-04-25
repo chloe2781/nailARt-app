@@ -6,6 +6,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/auth";
 import AppLoading from 'expo-app-loading';
 import theme from '../styles/theme.style';
+import * as SplashScreen from 'expo-splash-screen';
+
+// SplashScreen.preventAutoHideAsync();
 
 const SignIn = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -39,28 +42,29 @@ const SignIn = ({ navigation }) => {
                     <View style={styles.imageContainer}>
                         <Image source={require("../assets/icon.png")} style={styles.imageStyles} />
                     </View>
-                    <Text style={styles.signupText}>Sign In</Text>
-                    <View style={{ marginHorizontal: 24 }}>
-                        <Text style={{ fontSize: 16, color: '#8e93a1' }}>EMAIL</Text>
+                    <Text style={styles.signupText}>sign in</Text>
+                    <View style={{ marginHorizontal: 35 }}>
+                        <Text style={styles.inputTitle}>EMAIL</Text>
                         <TextInput style={styles.signupInput} value={email} onChangeText={text => setEmail(text)} autoCompleteType="email" keyboardType="email-address" />
                     </View>
-                    <View style={{ marginHorizontal: 24 }}>
-                        <Text style={{ fontSize: 16, color: '#8e93a1' }}>PASSWORD</Text>
+                    <View style={{ marginHorizontal: 35 }}>
+                        <Text style={styles.inputTitle}>PASSWORD</Text>
                         <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplteType="password" />
                     </View>
                     <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
-                        <Text style={styles.buttonText}>Submit</Text>
+                        <Text style={styles.buttonText}>log in</Text>
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 12, textAlign: 'center' }}>
-                        Not yet registered? {" "}
-                        <Text style={{ color: 'darkred', fontWeight: 'bold' }}
-                            onPress={() => navigation.navigate("SignUp")} >
-                            Sign Up
-                        </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")} style={styles.forgetbutton}>
+                        <Text style={styles.forgetText}> Forgot Password? </Text>
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 12, textAlign: 'center', marginBottom: 20 }}>
+                        OR
                     </Text>
-                    <Text onPress={() => navigation.navigate("ForgotPassword")} style={styles.forgetText}>Forgot Password?</Text>
-                    <Text style={{ fontSize: 12, textAlign: 'center', marginTop: 10 }}>Forgot Password?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("SignUp")} style={[styles.buttonStyle, styles.darkerButton]}>
+                        <Text style={styles.buttonText}> Sign Up </Text>
+                    </TouchableOpacity>
                 </View>
+
             </KeyboardAwareScrollView>
         )
     }
@@ -71,36 +75,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    signupText: {
-        fontSize: 30,
-        textAlign: 'center',
-        color: theme.colors.dark_blue,
-        fontFamily: theme.fonts.ss_black,
-    },
-    signupInput: {
-        borderBottomWidth: 0.5,
-        height: 48,
-        borderBottomColor: "#8e93a1",
-        marginBottom: 30,
-    },
-    buttonStyle: {
-        backgroundColor: "darkmagenta",
-        height: 50,
-        marginBottom: 20,
-        justifyContent: "center",
-        marginHorizontal: 15,
-        borderRadius: 15,
-    },
-    buttonText: {
-        fontSize: 20,
-        textAlign: 'center',
-        color: '#fff',
-        textTransform: 'uppercase',
-        fontWeight: 'bold'
-    },
     imageContainer: {
-        //     justifyContent: "center",
-        //     alignItems: "left"
         top: -60,
         left: 30
     },
@@ -109,12 +84,54 @@ const styles = StyleSheet.create({
         height: 48,
         marginVertical: 20
     },
+    signupText: {
+        marginTop: '12%',
+        marginBottom: '8%',
+        fontSize: 40,
+        textAlign: 'center',
+        color: theme.colors.dark_blue,
+        fontFamily: theme.fonts.ss_black,
+    },
+    signupInput: {
+        borderBottomWidth: 0.5,
+        height: 48,
+        borderBottomColor: theme.colors.light_blue,
+        marginBottom: 40,
+        fontSize: 18,
+        fontFamily: theme.fonts.sc_regular,
+        color: theme.colors.dark_blue,
+    },
+    inputTitle: {
+        fontSize: 18,
+        color: theme.colors.light_blue,
+        fontFamily: theme.fonts.sc_regular,
+        textTransform: 'uppercase',
+    },
+    buttonStyle: {
+        backgroundColor: theme.colors.light_blue,
+        height: 52,
+        marginBottom: 20,
+        justifyContent: "center",
+        marginHorizontal: '33%',
+        borderRadius: 55,
+    },
+    buttonText: {
+        fontSize: 23,
+        textAlign: 'center',
+        color: theme.colors.white,
+        textTransform: 'capitalize',
+        fontFamily: theme.fonts.sc_regular,
+    },
     forgetText: {
-        fontSize: 12,
+        fontSize: 13,
         textAlign: 'center',
         color: 'darkgreen',
-        marginTop: 10,
+        marginBottom: 30,
         fontWeight: 'bold',
+        fontFamily: theme.fonts.sc_semibold,
+    },
+    darkerButton: {
+        backgroundColor: theme.colors.dark_blue,
     }
 })
 

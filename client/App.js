@@ -8,6 +8,9 @@ import Home from './screens/Home';
 import Navigation from './components/Navigation';
 
 import { StyleSheet, Text, View } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync()
 
 const Stack = createNativeStackNavigator();
 

@@ -4,9 +4,14 @@ import { LinkContext } from "../context/link";
 import axios from "axios";
 import FooterList from "../components/footer/FooterList";
 import LinkView from "./LinkView";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import theme from "../styles/theme.style";
+import AppLoading from "expo-app-loading";
+import nails_image from "../assets/nails.png";
+
 
 const Home = ({ navigation }) => {
+    let [fontsLoaded] = theme.useFonts();
     const [links, setLinks] = useContext(LinkContext);
 
     useEffect(() => {
@@ -24,70 +29,121 @@ const Home = ({ navigation }) => {
         setLinks(links.map(l => l._id === link._id ? { ...l, views: l.views + 1 } : l));
     };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.mainText}>Recent Links</Text>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                {links && links.map(item => (
-                    <View key={item._id} style={{ alignItems: "center" }}>
-                        <View style={styles.box}>
-                            <Image style={styles.boxImage}
-                                source={{ uri: 'https://placeimg.com/500/500/tech' }} />
-                            <View style={{ position: "absolute", top: 20, right: 20 }}>
-                                <FontAwesome name="eye" size={25} color="#ffc600" />
-                                <Text style={styles.viewText}>{item.views}</Text>
-                            </View>
-                            <TouchableOpacity onPress={() => handlePress(item)}>
-                                <View style={{ padding: 5, height: 50 }}>
-                                    <Text style={styles.boxText}>{item.title}</Text>
-                                    <Text style={styles.linkText}>{item.link}</Text>
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        return (
+            <SafeAreaView style={styles.container}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <Text style={styles.mainText}> <FontAwesome5 name="globe-asia" solid style={styles.headerIcon} /> explore </Text>
+                    <Text style={styles.subText}>inspirations</Text>
+                    {links && links.map(item => (
+                        <View key={item._id} style={{ alignItems: "left" }}>
+                            <View style={styles.box}>
+                                <View style={styles.boxImageView}>
+                                    <Image style={styles.boxImage}
+                                        source={nails_image} />
                                 </View>
-                            </TouchableOpacity>
+                                <View style={{ position: "absolute", bottom: '30%', right: 16 }}>
+                                    <Text style={styles.viewText}>{item.views}</Text>
+                                    <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.post_background} />
+                                </View>
+                                <View style={{ position: "absolute", bottom: '18%', right: 10 }}>
+                                    <FontAwesome5 name="share-square" solid size={22} color={theme.colors.post_background} />
+                                </View>
+                                <TouchableOpacity onPress={() => handlePress(item)}>
+                                    <View style={{ padding: 5, height: 50 }}>
+                                        <Text style={styles.boxText}>{item.title}</Text>
+                                        {/* <Text style={styles.linkText}>{item.link}</Text> */}
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                ))}
-            </ScrollView>
-            <FooterList />
-        </SafeAreaView>
-    );
+                    ))}
+                    <View style={{ marginVertical: 120 }} />
+                </ScrollView>
+                <FooterList />
+            </SafeAreaView >
+        );
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    headerIcon: {
+        fontSize: 28,
+        color: theme.colors.dark_blue,
+        marginRight: 15,
+    },
     mainText: {
-        fontSize: 30,
-        textAlign: "center",
+        fontSize: 36,
+        marginLeft: 30,
+        fontFamily: theme.fonts.ss_black,
+        color: theme.colors.dark_blue,
+    },
+    subText: {
+        fontSize: 25,
+        marginLeft: 38,
+        marginTop: 5,
+        marginBottom: 30,
+        fontFamily: theme.fonts.sc_light,
+        color: theme.colors.dark_blue,
+        textTransform: "uppercase",
     },
     viewText: {
         fontSize: 20,
-        color: "#ffc600",
+        color: theme.colors.dark_blue,
         textAlign: "center",
+        fontFamily: theme.fonts.ss_regular,
     },
     box: {
-        width: "92%",
-        height: 280,
-        backgroundColor: "#fff",
-        borderRadius: 14,
+        width: "89%",
+        aspectRatio: 1,
+        backgroundColor: theme.colors.gray_gal,
         shadowColor: "#171717",
-        shadowOffset: { width: -2, height: 4 },
-        shadowRadius: 3,
-        shadowOpacity: 0.2,
-        marginBottom: 20,
+        shadowOffset: { width: 10, height: 11 },
+        shadowOpacity: 0.15,
+        shadowRadius: 7,
+        marginBottom: 25,
+        zIndex: 1,
+    },
+    boxImageView: {
+        marginTop: "5%",
+        marginLeft: "7%",
+        width: "80%",
+        height: "80%",
+        borderRadius: 50,
+        backgroundColor: theme.colors.post_background,
+        shadowColor: "#171717",
+        shadowOffset: { width: 8, height: 8 },
+        shadowOpacity: 0.15,
+        shadowRadius: 7,
+        // zIndex: 2,
     },
     boxImage: {
+        // marginTop: "5%",
+        // marginLeft: "7%",
+        // width: "80%",
+        // height: "80%",
+        // borderRadius: 50,
+        // backgroundColor: theme.colors.post_background,
+        // shadowColor: "#171717",
+        // shadowOffset: { width: 10, height: 11 },
+        // shadowOpacity: 0.15,
+        // shadowRadius: 7,
+        // zIndex: 2,
         width: "100%",
-        height: "70%",
-        borderTopRightRadius: 14,
-        borderTopLeftRadius: 14,
+        height: "100%",
     },
     boxText: {
-        fontSize: 20,
+        fontSize: 22,
         color: "#171717",
-        paddingTop: 5,
+        fontFamily: theme.fonts.ss_regular,
+        paddingTop: 10,
         paddingBottom: 5,
-        fontWeight: "bold",
+        marginLeft: "7%",
     },
     linkText: {
         fontSize: 16,

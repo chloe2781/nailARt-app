@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, SafeAreaView, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React, { useContext, useEffect, useState } from "react";
 import FooterList from "../components/footer/FooterList";
@@ -7,6 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/auth";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
+import theme from "../styles/theme.style";
+import { LinkContext } from "../context/link";
+import nails_image from "../assets/nails.png";
 
 const Account = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -82,44 +85,120 @@ const Account = ({ navigation }) => {
         alert("Image uploaded successfully");
     };
 
+    const signOut = async () => {
+        setState({ user: null, token: "" });
+        await AsyncStorage.removeItem("auth-rn");
+    };
+
+    const [links, setLinks] = useContext(LinkContext);
+
+    useEffect(() => {
+        fetchLinks();
+    }, []);
+
+    const fetchLinks = async () => {
+        const { data } = await axios.get("http://localhost:8000/api/links");
+        setLinks(data);
+    };
+
+    const handlePress = async link => {
+        await axios.put(`http://localhost:8000/api/view-count/${link._id}`);
+        navigation.navigate("LinkView", { link });
+        setLinks(links.map(l => l._id === link._id ? { ...l, views: l.views + 1 } : l));
+    };
+
+
     return (
-        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-            <View style={{ marginVertical: 100 }}>
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.signupText}><FontAwesome5 name="user" solid style={styles.headerIcon} />  {name}</Text>
+            <TouchableOpacity onPress={signOut} style={styles.signOutButton}>
+                <FontAwesome5 name="sign-out-alt" size={25} color={theme.colors.dark_blue} />
+            </TouchableOpacity>
+            <View style={styles.header}>
                 <View style={styles.imageContainer}>
                     {image && image.url ? <Image source={{ uri: image.url }} style={styles.imageStyles} /> :
                         uploadImage ? <Image source={{ uri: uploadImage }} style={styles.imageStyles} /> : (
                             <TouchableOpacity onPress={() => handleUpload()}>
-                                <FontAwesome5 name="camera" size={25} color="darkmagenta" />
+                                <FontAwesome5 name="camera" size={25} color={theme.colors.dark_blue} />
                             </TouchableOpacity>
                         )}
                 </View>
-                {image && image.url ? (
-                    <TouchableOpacity onPress={() => handleUpload()}>
-                        <FontAwesome5 name="camera" size={25} color="darkmagenta" style={styles.iconStyle} />
+                <View style={styles.headerRight}>
+                    <View style={styles.headerStats}>
+                        <View style={styles.headerStatComp}>
+                            <Text style={styles.headerStatNum}>21</Text>
+                            <Text style={styles.headerStatTitle}>designs</Text>
+                        </View>
+                        <View style={styles.headerStatComp}>
+                            <Text style={styles.headerStatNum}>105</Text>
+                            <Text style={styles.headerStatTitle}>followers</Text>
+                        </View>
+                    </View>
+
+                    <TouchableOpacity style={styles.saveButton}>
+                        <Text style={styles.saveButtonText}><FontAwesome5 name="bookmark" solid style={styles.saveIcon} />  saved</Text>
                     </TouchableOpacity>
-                ) : (
-                    <></>
-                )}
-                <Text style={styles.signupText}>{name}</Text>
-                <Text style={styles.emailText}>{email}</Text>
-                <Text style={styles.roleText}>{role}</Text>
-                <View style={{ marginHorizontal: 24 }}>
-                    <Text style={{ fontSize: 16, color: "#8e93a1" }}>PASSWORD</Text>
-                    <TextInput style={styles.signupInput}
-                        value={password}
-                        onChangeText={text => setPassword(text)}
-                        secureTextEntry={true}
-                        autoCompleteType="password" />
                 </View>
-                <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmit}>
-                    <Text style={styles.buttonText}>Update password</Text>
-                </TouchableOpacity>
             </View>
-        </KeyboardAwareScrollView>
+            {image && image.url ? (
+                <TouchableOpacity onPress={() => handleUpload()} style={styles.cameraButton}>
+                    <FontAwesome5 name="camera" size={25} color={theme.colors.dark_blue} style={styles.iconStyle} />
+                </TouchableOpacity>
+            ) : (
+                <></>
+            )}
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.posts}>
+                    {links && links.map(item => (
+                        // <View key={item._id} style={{ alignItems: "left" }}>
+                        <View style={styles.box}>
+                            <View style={styles.boxImageView}>
+                                <Image style={styles.boxImage}
+                                    source={nails_image} />
+                            </View>
+                            <View style={{ position: "absolute", bottom: '30%', right: 16 }}>
+                                <Text style={styles.viewText}>{item.views}</Text>
+                                <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.post_background} />
+                            </View>
+                        </View>
+                        // </View>
+                    ))}
+                </View>
+            </ScrollView>
+            {/* <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+                
+                <View style={{ marginVertical: 0 }}>
+
+
+
+                    <Text style={styles.emailText}>{email}</Text>
+                    <Text style={styles.roleText}>{role}</Text>
+                    <View style={{ marginHorizontal: 24 }}>
+                        <Text style={{ fontSize: 16, color: "#8e93a1" }}>PASSWORD</Text>
+                        <TextInput style={styles.signupInput}
+                            value={password}
+                            onChangeText={text => setPassword(text)}
+                            secureTextEntry={true}
+                            autoCompleteType="password" />
+                    </View>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmit}>
+                        <Text style={styles.buttonText}>Update password</Text>
+                    </TouchableOpacity>
+                </View>
+                
+            </KeyboardAwareScrollView> */}
+            <FooterList />
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    signOutButton: {
+        position: "absolute",
+        top: '8%',
+        right: 25,
+        zIndex: 1,
+    },
     iconStyle: {
         marginTop: -5,
         marginBottom: 10,
@@ -129,10 +208,66 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
     },
+    headerIcon: {
+        fontSize: 28,
+        color: theme.colors.dark_blue,
+        marginRight: 15,
+    },
     signupText: {
-        fontSize: 30,
-        textAlign: "center",
-        paddingBottom: 10,
+        fontSize: 36,
+        marginLeft: 30,
+        fontFamily: theme.fonts.ss_black,
+        color: theme.colors.dark_blue,
+        marginBottom: -10,
+    },
+    header: {
+        flexDirection: "row",
+        // alignItems: "center",
+        marginTop: 0,
+    },
+    headerRight: {
+        flex: 1,
+        flexDirection: "column",
+    },
+    headerStats: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        flex: 0.8,
+        marginHorizontal: 69,
+        marginLeft: 45,
+        marginTop: 25,
+    },
+    headerStatComp: {
+        alignItems: "center",
+    },
+    headerStatNum: {
+        fontSize: 24,
+        fontFamily: theme.fonts.ss_regular,
+        color: "black",
+    },
+    headerStatTitle: {
+        fontSize: 20,
+        fontFamily: theme.fonts.ss_regular,
+        color: "black",
+    },
+    saveButton: {
+        backgroundColor: theme.colors.gray_gal,
+        borderRadius: 10,
+        height: 35,
+        width: 185,
+        justifyContent: "center",
+        alignItems: "center",
+        marginLeft: 43,
+    },
+    saveButtonText: {
+        fontSize: 22,
+        fontFamily: theme.fonts.sc_regular,
+        color: theme.colors.dark_blue,
+    },
+    saveIcon: {
+        fontSize: 19,
+        color: theme.colors.dark_blue,
+        marginRight: 5,
     },
     emailText: {
         fontSize: 18,
@@ -167,13 +302,68 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     imageContainer: {
-        justifyContent: "center",
-        alignItems: "center",
+        // justifyContent: "center",
+        // alignItems: "center",
+        marginLeft: 30,
     },
     imageStyles: {
-        width: 100,
-        height: 100,
+        width: 105,
+        height: 105,
         marginVertical: 20,
+        borderRadius: 100,
+    },
+    cameraButton: {
+        alignSelf: "left",
+        marginLeft: 103,
+        marginTop: -50,
+        marginBottom: 20,
+        backgroundColor: theme.colors.primary_white,
+        paddingTop: 13,
+        borderRadius: 100,
+        height: 45,
+        width: 45,
+    },
+    posts: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: "center",
+        justifyContent: "space-between",
+        marginLeft: 30,
+        marginRight: 30,
+        marginBottom: "65%",
+    },
+    box: {
+        // flex: 1,
+        width: "46%",
+        aspectRatio: 1,
+        // flexDirection: 'row',
+        // flexWrap: 'wrap',
+        // backgroundColor: theme.colors.gray_gal,
+        // shadowColor: "#171717",
+        // shadowOffset: { width: 10, height: 11 },
+        // shadowOpacity: 0.15,
+        // shadowRadius: 7,
+        // marginBottom: 25,
+        // zIndex: 1,
+    },
+    boxImageView: {
+        marginTop: "5%",
+        // marginLeft: "7%",
+        width: "100%",
+        height: "100%",
+        borderRadius: 40,
+        backgroundColor: theme.colors.post_background,
+        shadowColor: "#171717",
+        shadowOffset: { width: 8, height: 8 },
+        shadowOpacity: 0.15,
+        shadowRadius: 7,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    boxImage: {
+        width: "100%",
+        height: "100%",
     },
 
 });

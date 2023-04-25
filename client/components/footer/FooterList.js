@@ -9,9 +9,9 @@ const FooterList = () => {
 
     return (
         <View style={styles.container}>
-            <FooterItem text="Home" name="home" screenName="Home" handlePress={() => navigation.navigate("Home")} routeName={route.name} />
-            <FooterItem text="Post" name="plus-square" screenName="Post" handlePress={() => navigation.navigate("Post")} routeName={route.name} />
-            <FooterItem text="Links" name="list-ol" screenName="Links" handlePress={() => navigation.navigate("Links")} routeName={route.name} />
+            <FooterItem text="Home" name="globe-asia" screenName="Home" handlePress={() => navigation.navigate("Home")} routeName={route.name} />
+            <FooterItem text="Post" name="hand-sparkles" screenName="Post" handlePress={() => navigation.navigate("Post")} routeName={route.name} />
+            {/* <FooterItem text="Links" name="list-ol" screenName="Links" handlePress={() => navigation.navigate("Links")} routeName={route.name} /> */}
             <FooterItem text="Account" name="user" screenName="Account" handlePress={() => navigation.navigate("Account")} routeName={route.name} />
         </View>
     );
@@ -20,9 +20,14 @@ const FooterList = () => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        margin: 10,
-        marginHorizontal: 30,
+        paddingVertical: 15,
+        paddingHorizontal: 42,
+        marginHorizontal: 70,
+        borderRadius: 50,
         justifyContent: "space-between",
+        backgroundColor: "rgba(252, 249, 246, 0.6)",
+        // opacity: 0.7,
+        marginTop: '-50%',
     },
 });
 
