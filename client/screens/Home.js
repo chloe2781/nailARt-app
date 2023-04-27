@@ -1,5 +1,5 @@
 import { StyleSheet, Text, SafeAreaView, ScrollView, View, TouchableOpacity, Image } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LinkContext } from "../context/link";
 import axios from "axios";
 import FooterList from "../components/footer/FooterList";
@@ -13,6 +13,10 @@ import nails_image from "../assets/nails.png";
 const Home = ({ navigation }) => {
     let [fontsLoaded] = theme.useFonts();
     const [links, setLinks] = useContext(LinkContext);
+    const [bookmarkedLinks, setBookmarkedLinks] = useState([]);
+    const [bookmarkCount, setBookmarkCount] = useState(0);
+
+
 
     useEffect(() => {
         fetchLinks();
@@ -29,6 +33,32 @@ const Home = ({ navigation }) => {
         setLinks(links.map(l => l._id === link._id ? { ...l, views: l.views + 1 } : l));
     };
 
+    const handleBookmark = (link) => {
+        if (bookmarkedLinks.includes(link._id)) {
+            // Remove bookmark
+            setBookmarkedLinks(bookmarkedLinks.filter(id => id !== link._id));
+            setBookmarkCount(bookmarkCount - 1);
+        } else {
+            // Add bookmark
+            setBookmarkedLinks([...bookmarkedLinks, link._id]);
+            setBookmarkCount(bookmarkCount + 1);
+        }
+    };
+
+
+
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const nailsets = [
+        require('../assets/nail-sets/nails1.png'),
+        require('../assets/nail-sets/nails2.png'),
+        require('../assets/nail-sets/nails3.png'),
+        require('../assets/nail-sets/nails4.png'),
+        require('../assets/nail-sets/nails5.png'),
+        require('../assets/nail-sets/nails6.png'),
+
+    ];
+
     if (!fontsLoaded) {
         return <AppLoading />;
     } else {
@@ -37,16 +67,37 @@ const Home = ({ navigation }) => {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.mainText}> <FontAwesome5 name="globe-asia" solid style={styles.headerIcon} /> explore </Text>
                     <Text style={styles.subText}>inspirations</Text>
-                    {links && links.map(item => (
+                    {links && links.map((item, index) => (
                         <View key={item._id} style={{ alignItems: "left" }}>
                             <View style={styles.box}>
                                 <View style={styles.boxImageView}>
+
                                     <Image style={styles.boxImage}
-                                        source={nails_image} />
+                                        source={nailsets[index % nailsets.length]} />
                                 </View>
                                 <View style={{ position: "absolute", bottom: '30%', right: 16 }}>
-                                    <Text style={styles.viewText}>{item.views}</Text>
-                                    <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.post_background} />
+                                    {/* <Text style={styles.viewText}>{item.views}</Text> */}
+                                    <Text style={styles.viewText}>{bookmarkCount + item.views}</Text>
+                                    {/* <FontAwesome5 name="bookmark"
+                                        solid={bookmarked}
+                                        size={22}
+                                        color={theme.colors.post_background}
+                                        onPress={() => {
+                                            if (bookmarked) {
+                                                setBookmarked(false);
+                                                setBookmarkCount(bookmarkCount - 1);
+                                            } else {
+                                                setBookmarked(true);
+                                                setBookmarkCount(bookmarkCount + 1);
+                                            }
+                                        }} /> */}
+                                    <TouchableOpacity onPress={() => handleBookmark(item)}>
+                                        {bookmarkedLinks.includes(item._id) ? (
+                                            <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.post_background} />
+                                        ) : (
+                                            <FontAwesome5 name="bookmark" regular size={22} color={theme.colors.post_background} />
+                                        )}
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={{ position: "absolute", bottom: '18%', right: 10 }}>
                                     <FontAwesome5 name="share-square" solid size={22} color={theme.colors.post_background} />

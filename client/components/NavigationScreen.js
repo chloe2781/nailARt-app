@@ -11,7 +11,7 @@ import Links from "../screens/Links";
 import ForgotPassword from "../screens/ForgotPassword";
 import LinkView from "../screens/LinkView";
 import theme from "../styles/theme.style";
-import Camera from "../screens/SeeNails";
+import SeeNails from "../screens/SeeNails";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,7 +29,7 @@ const NavigationScreen = () => {
                     (
                         <>
                             <Stack.Screen name="Home" component={Home} options={{ headerRight: () => <HeaderTabs /> }} />
-                            <Stack.Screen name="Camera" component={Camera} />
+                            <Stack.Screen name="SeeNails" component={SeeNails} />
                             <Stack.Screen name="Post" component={Post} />
                             <Stack.Screen name="Account" component={Account} />
                             <Stack.Screen name="Links" component={Links} />

@@ -19,18 +19,18 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AuthProvider>
-        <Stack.Navigator initialRouteName="Post" screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Home" component={Home} /> */}
-          <Stack.Screen name="SeeNails" component={SeeNails} />
-        </Stack.Navigator>
-      </AuthProvider>
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   <AuthProvider>
+    //     <Stack.Navigator initialRouteName="Post" screenOptions={{ headerShown: false }}>
+    //       {/* <Stack.Screen name="SignIn" component={SignIn} />
+    //       <Stack.Screen name="SignUp" component={SignUp} />
+    //       <Stack.Screen name="Home" component={Home} /> */}
+    //       <Stack.Screen name="SeeNails" component={SeeNails} />
+    //     </Stack.Navigator>
+    //   </AuthProvider>
+    // </NavigationContainer>
 
-    // <Navigation />
+    <Navigation />
   );
 }
 

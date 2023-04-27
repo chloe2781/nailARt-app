@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import FooterList from "../components/footer/FooterList";
 import theme from "../styles/theme.style";
@@ -34,7 +34,7 @@ export default function SeeNails() {
                 />
             </View>
         )
-    }
+    };
 
     const __takePicture = async () => {
         if (!camera) return
@@ -42,7 +42,24 @@ export default function SeeNails() {
         console.log(photo)
         setPreviewVisible(true)
         setCapturedImage(photo)
-    }
+    };
+
+    const nails = [
+        require('../assets/single-nails/nail1.png'),
+        require('../assets/single-nails/nail2.png'),
+        require('../assets/single-nails/nail3.png'),
+        require('../assets/single-nails/nail4.png'),
+        require('../assets/single-nails/nail5.png'),
+        require('../assets/single-nails/nail6.png'),
+        require('../assets/single-nails/nail7.png'),
+        require('../assets/single-nails/nail8.png'),
+        require('../assets/single-nails/nail9.png'),
+        require('../assets/single-nails/nail10.png'),
+        require('../assets/single-nails/nail11.png'),
+    ];
+    const { width: screenWidth } = Dimensions.get('window');
+    const middleOffset = (screenWidth / 2) - (80 / 2);
+
 
     if (!fontsLoaded) {
         return <AppLoading />;
@@ -50,7 +67,9 @@ export default function SeeNails() {
 
         if (previewVisible && capturedImage) {
             return (
-                <CameraPreview photo={capturedImage} />
+                <View style={styles.container}>
+                    <CameraPreview photo={capturedImage} />
+                </View>
             )
         }
         else {
@@ -69,6 +88,26 @@ export default function SeeNails() {
                         <View style={styles.buttonContainer} >
                             <TouchableOpacity onPress={__takePicture} style={styles.button} />
                         </View>
+                        <ScrollView horizontal={true}
+                            snapToAlignment="center"
+                            snapToInterval={80}
+                            decelerationRate="fast"
+                            showsHorizontalScrollIndicator={false}
+                            style={{ marginTop: 20, marginBottom: 20 }}
+                            contentContainerStyle={{ paddingHorizontal: 241 }}>
+                            {nails.map((nail, index) => {
+                                return (
+                                    // <TouchableOpacity key={index} onPress={() => { console.log('nail', nail) }}>
+                                    //     <ImageBackground source={nail} style={{ width: 80, height: 200, marginRight: 0 }} />
+                                    // </TouchableOpacity>
+                                    <Image
+                                        key={index}
+                                        source={nail}
+                                        style={{ width: 80, height: 200, marginRight: 0 }}
+                                    />
+                                )
+                            })}
+                        </ScrollView>
                     </View>
                     <FooterList />
                 </View>
@@ -84,7 +123,7 @@ const styles = StyleSheet.create({
         paddingBottom: 30
     },
     headerIcon: {
-        fontSize: 28,
+        fontSize: 32,
         color: theme.colors.light_blue,
         marginRight: 15,
     },
@@ -103,7 +142,7 @@ const styles = StyleSheet.create({
     },
     cameraInnerView: {
         position: 'absolute',
-        bottom: '12%',
+        bottom: 70,
         width: '100%',
         // alignSelf: 'center',
         // flexDirection: 'row',
@@ -113,6 +152,7 @@ const styles = StyleSheet.create({
         // justifyContent: 'bottom',
     },
     buttonContainer: {
+        position: 'absolute',
         alignSelf: 'center',
         flex: 1,
         alignItems: 'center',
@@ -121,7 +161,7 @@ const styles = StyleSheet.create({
     button: {
         width: 80,
         height: 140,
-        bottom: 0,
+        bottom: -45,
         borderRadius: 50,
         backgroundColor: 'transparent',
         borderWidth: 2,
