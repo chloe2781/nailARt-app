@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
     let [fontsLoaded] = theme.useFonts();
     const [links, setLinks] = useContext(LinkContext);
     const [bookmarkedLinks, setBookmarkedLinks] = useState([]);
-    const [bookmarkCount, setBookmarkCount] = useState(0);
+    const [bookmarkCounts, setBookmarkCounts] = useState(0);
 
 
 
@@ -34,14 +34,23 @@ const Home = ({ navigation }) => {
     };
 
     const handleBookmark = (link) => {
-        if (bookmarkedLinks.includes(link._id)) {
+        const linkId = link._id;
+        const isBookmarked = bookmarkedLinks.includes(linkId);
+
+        if (isBookmarked) {
             // Remove bookmark
-            setBookmarkedLinks(bookmarkedLinks.filter(id => id !== link._id));
-            setBookmarkCount(bookmarkCount - 1);
+            setBookmarkedLinks(bookmarkedLinks.filter(id => id !== linkId));
+            setBookmarkCounts({
+                ...bookmarkCounts,
+                [linkId]: bookmarkCounts[linkId] - 1
+            });
         } else {
             // Add bookmark
-            setBookmarkedLinks([...bookmarkedLinks, link._id]);
-            setBookmarkCount(bookmarkCount + 1);
+            setBookmarkedLinks([...bookmarkedLinks, linkId]);
+            setBookmarkCounts({
+                ...bookmarkCounts,
+                [linkId]: (bookmarkCounts[linkId] || 0) + 1
+            });
         }
     };
 
@@ -77,7 +86,13 @@ const Home = ({ navigation }) => {
                                 </View>
                                 <View style={{ position: "absolute", bottom: '30%', right: 16 }}>
                                     {/* <Text style={styles.viewText}>{item.views}</Text> */}
-                                    <Text style={styles.viewText}>{bookmarkCount + item.views}</Text>
+                                    {/* <Text style={styles.viewText}>{bookmarkCount + item.views}</Text> */}
+                                    {bookmarkedLinks.includes(item._id) || (
+                                        <Text style={styles.viewText}>{item.views} </Text>
+                                    )}
+                                    {bookmarkedLinks.includes(item._id) && (
+                                        <Text style={styles.viewText}>{bookmarkCounts[item._id] + item.views} </Text>
+                                    )}
                                     {/* <FontAwesome5 name="bookmark"
                                         solid={bookmarked}
                                         size={22}
