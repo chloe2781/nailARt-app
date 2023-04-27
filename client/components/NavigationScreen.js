@@ -11,12 +11,13 @@ import Links from "../screens/Links";
 import ForgotPassword from "../screens/ForgotPassword";
 import LinkView from "../screens/LinkView";
 import theme from "../styles/theme.style";
+import Camera from "../screens/SeeNails";
 
 const Stack = createNativeStackNavigator();
 
 const NavigationScreen = () => {
     const [state, setState] = useContext(AuthContext);
-    const authenticated = state && state.token !== "" && state.user !== null;
+    const authenticated = state && state.token !== "" && state.user !== "";
 
     return (
         <>
@@ -28,6 +29,7 @@ const NavigationScreen = () => {
                     (
                         <>
                             <Stack.Screen name="Home" component={Home} options={{ headerRight: () => <HeaderTabs /> }} />
+                            <Stack.Screen name="Camera" component={Camera} />
                             <Stack.Screen name="Post" component={Post} />
                             <Stack.Screen name="Account" component={Account} />
                             <Stack.Screen name="Links" component={Links} />

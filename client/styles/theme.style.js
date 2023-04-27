@@ -62,7 +62,7 @@ export const useFonts = () => {
 export const colors = {
     // Colors
     primary_white: '#ECE9E6',
-    light_blue: '#ABB3C5',
+    light_blue: '#838CA1',
     dark_blue: '#494F64',
     white: '#FFFFFF',
     pinky: '#E0A6AA',

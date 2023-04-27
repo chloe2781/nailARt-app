@@ -7,7 +7,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [state, setState] = useState({
-        user: null,
+        user: "",
         token: "",
     });
 
@@ -25,9 +25,10 @@ const AuthProvider = ({ children }) => {
         },
         async function (error) {
             let res = error.response;
-            if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
+            if (res && res.status === 400 && res.config && !res.config.__isRetryRequest) {
+                console.log("expired token or 401 error");
                 await AsyncStorage.removeItem("auth-rn");
-                setState({ user: null, token: "" });
+                setState({ user: "", token: "" });
                 navigation.navigate("SignIn");
             }
         }

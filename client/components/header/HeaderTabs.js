@@ -8,7 +8,7 @@ const HeaderTabs = () => {
     const [state, setState] = useContext(AuthContext);
 
     const signOut = async () => {
-        setState({ user: null, token: "" });
+        setState({ user: "", token: "" });
         await AsyncStorage.removeItem("auth-rn");
     };
 

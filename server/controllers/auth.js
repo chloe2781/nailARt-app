@@ -73,7 +73,7 @@ exports.signin = async (req, res) => {
         const { email, password } = req.body;
         // check if our db has user with that email
         const user = await User.findOne({ email });
-        if (!user) {
+        if (user === "" || user === null || user === undefined) {
             return res.json({
                 error: "No user found",
             });
@@ -105,7 +105,7 @@ exports.forgotPassword = async (req, res) => {
     // find user by email
     const user = await User.findOne({ email });
     console.log("USER ===> ", user);
-    if (!user) {
+    if (user === "" || user === null || user === undefined) {
         return res.json({ error: "User not found" });
     }
     // generate code
@@ -136,7 +136,7 @@ exports.resetPassword = async (req, res) => {
         // find user based on email and resetCode
         const user = await User.findOne({ email, resetCode });
         // if user not found
-        if (!user) {
+        if (user === "" || user === null || user === undefined) {
             return res.json({ error: "Email or reset code is invalid" });
         }
         // if password is short

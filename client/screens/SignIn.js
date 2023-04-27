@@ -20,15 +20,21 @@ const SignIn = ({ navigation }) => {
             alert("All fields are required");
             return;
         }
-        const resp = await axios.post("http://localhost:8000/api/signin", { email, password });
-        console.log(resp.data);
-        if (resp.data.error)
-            alert(resp.data.error);
-        else {
-            setState(resp.data);
-            await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
-            alert("Sign In Successful");
-            navigation.navigate("Home");
+
+        try {
+            const resp = await axios.post("http://localhost:8000/api/signin", { email, password });
+            console.log(resp.data);
+            if (resp.data.error)
+                alert(resp.data.error);
+            else {
+                setState(resp.data);
+                await AsyncStorage.setItem("auth-rn", JSON.stringify(resp.data));
+                alert("Sign In Successful");
+                navigation.navigate("Home");
+            }
+        } catch (err) {
+            console.log(err);
+            alert("Something went wrong");
         }
     };
 

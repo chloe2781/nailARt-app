@@ -86,7 +86,7 @@ const Account = ({ navigation }) => {
     };
 
     const signOut = async () => {
-        setState({ user: null, token: "" });
+        setState({ user: "", token: "" });
         await AsyncStorage.removeItem("auth-rn");
     };
 
@@ -156,9 +156,9 @@ const Account = ({ navigation }) => {
                                 <Image style={styles.boxImage}
                                     source={nails_image} />
                             </View>
-                            <View style={{ position: "absolute", bottom: '30%', right: 16 }}>
+                            <View style={{ position: "absolute", bottom: '10%', right: 15 }}>
                                 <Text style={styles.viewText}>{item.views}</Text>
-                                <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.post_background} />
+                                <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.yellow_mellow} />
                             </View>
                         </View>
                         // </View>
@@ -351,6 +351,12 @@ const styles = StyleSheet.create({
     boxImage: {
         width: "100%",
         height: "100%",
+    },
+    viewText: {
+        fontSize: 20,
+        color: theme.colors.yellow_mellow,
+        textAlign: "center",
+        fontFamily: theme.fonts.ss_regular,
     },
 
 });

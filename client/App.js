@@ -6,26 +6,31 @@ import SignIn from './screens/SignIn';
 import { AuthProvider } from './context/auth';
 import Home from './screens/Home';
 import Navigation from './components/Navigation';
+import Post from './screens/Post';
+import SeeNails from './screens/SeeNails';
 
 import { StyleSheet, Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
+// import { Camera } from 'expo-camera';
 
-SplashScreen.preventAutoHideAsync()
+// SplashScreen.preventAutoHideAsync()
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    // <NavigationContainer>
-    //   <AuthProvider>
-    //     <Stack.Navigator initialRouteName="SignIn">
-    //       <Stack.Screen name="SignIn" component={SignIn} />
-    //       <Stack.Screen name="SignUp" component={SignUp} />
-    //       <Stack.Screen name="Home" component={Home} />
-    //     </Stack.Navigator>
-    //   </AuthProvider>
-    // </NavigationContainer>
-    <Navigation />
+    <NavigationContainer>
+      <AuthProvider>
+        <Stack.Navigator initialRouteName="Post" screenOptions={{ headerShown: false }}>
+          {/* <Stack.Screen name="SignIn" component={SignIn} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Home" component={Home} /> */}
+          <Stack.Screen name="SeeNails" component={SeeNails} />
+        </Stack.Navigator>
+      </AuthProvider>
+    </NavigationContainer>
+
+    // <Navigation />
   );
 }
 
