@@ -106,7 +106,7 @@ const Home = ({ navigation }) => {
                                                 setBookmarkCount(bookmarkCount + 1);
                                             }
                                         }} /> */}
-                                    <TouchableOpacity onPress={() => handleBookmark(item)}>
+                                    <TouchableOpacity onPress={() => handleBookmark(item)} style={{}}>
                                         {bookmarkedLinks.includes(item._id) ? (
                                             <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.post_background} />
                                         ) : (

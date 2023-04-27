@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import { Camera } from 'expo-camera'
 import FooterList from "../components/footer/FooterList";
 import theme from "../styles/theme.style";
 import AppLoading from "expo-app-loading";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import * as MediaLibrary from 'expo-media-library';
 
 
 export default function SeeNails() {
@@ -20,18 +21,36 @@ export default function SeeNails() {
         return (
             <View
                 style={{
-                    backgroundColor: 'green',
+                    backgroundColor: 'transparent',
                     flex: 1,
-                    width: '100%',
-                    height: '100%'
+                    width: '80%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    overflow: 'hidden', // clip overflow
+                    borderRadius: 20,
+                    marginTop: 40,
                 }}
             >
-                <ImageBackground
+                {/* <ImageBackground
                     source={{ uri: photo && photo.uri }}
                     style={{
                         flex: 1
                     }}
+                /> */}
+                <Image
+                    source={{ uri: photo && photo.uri }}
+                    style={{
+                        width: '100%',
+                        height: '130%',
+                        resizeMode: 'cover',
+                        position: 'absolute',
+                        top: 0,
+                        // left: 0,
+                        // transform: [{ translateY: 50 }],
+
+                    }}
                 />
+
             </View>
         )
     };
@@ -60,6 +79,30 @@ export default function SeeNails() {
     const { width: screenWidth } = Dimensions.get('window');
     const middleOffset = (screenWidth / 2) - (80 / 2);
 
+    const BackButton = () => {
+        const goBack = () => {
+            setPreviewVisible(false);
+        };
+
+        return (
+            <TouchableOpacity onPress={goBack} style={{ zIndex: 1, paddingHorizontal: 30 }}>
+                <Text>Back</Text>
+            </TouchableOpacity>
+        );
+    };
+
+    const savePhoto = async (photo) => {
+        try {
+            if (Platform.OS === 'ios') {
+                await MediaLibrary.requestPermissionsAsync();
+            }
+            await MediaLibrary.saveToLibraryAsync(photo.uri);
+            Alert.alert('Success!', 'Photo saved to your camera roll!');
+        } catch (e) {
+            console.log(e);
+            Alert.alert('Error', 'Failed to save photo');
+        }
+    };
 
     if (!fontsLoaded) {
         return <AppLoading />;
@@ -67,8 +110,26 @@ export default function SeeNails() {
 
         if (previewVisible && capturedImage) {
             return (
-                <View style={styles.container}>
-                    <CameraPreview photo={capturedImage} />
+                <View style={styles.imageContainer}>
+                    <View style={styles.cameraView} >
+                        <Text style={styles.mainText}> <FontAwesome5 name="hand-sparkles" solid style={styles.headerIcon} />  see nails </Text>
+                    </View>
+                    <View style={styles.imageContainerInner}>
+                        <CameraPreview photo={capturedImage} />
+                    </View>
+                    <View style={{ position: 'absolute', bottom: 120, left: 50 }}>
+                        <TouchableOpacity onPress={() => setPreviewVisible(false)} style={{ zIndex: 2, alignItems: 'center' }}>
+                            <FontAwesome5 name="arrow-circle-left" solid style={{ fontSize: 45, color: theme.colors.pinky }} />
+                            <Text style={{ fontSize: 20, color: theme.colors.pinky, marginTop: 5 }}>back</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ position: 'absolute', bottom: 120, right: 50 }}>
+                        <TouchableOpacity onPress={() => savePhoto(capturedImage)} style={{ zIndex: 2, alignItems: 'center' }}>
+                            <FontAwesome5 name="download" solid style={{ fontSize: 40, color: theme.colors.pinky }} />
+                            <Text style={{ fontSize: 20, color: theme.colors.pinky, marginTop: 5 }}>save</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <FooterList />
                 </View>
             )
         }
@@ -122,6 +183,17 @@ const styles = StyleSheet.create({
         backgrountColor: 'transparent',
         paddingBottom: 30
     },
+    imageContainer: {
+        flex: 1,
+        paddingBottom: 30
+    },
+    imageContainerInner: {
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '80%',
+        marginBottom: '80%'
+    },
     headerIcon: {
         fontSize: 32,
         color: theme.colors.light_blue,
@@ -156,6 +228,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flex: 1,
         alignItems: 'center',
+        zIndex: 1,
         // bottom: 0,
     },
     button: {

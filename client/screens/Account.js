@@ -107,6 +107,15 @@ const Account = ({ navigation }) => {
         setLinks(links.map(l => l._id === link._id ? { ...l, views: l.views + 1 } : l));
     };
 
+    const nailsets = [
+        require('../assets/nail-sets/nails1.png'),
+        require('../assets/nail-sets/nails2.png'),
+        require('../assets/nail-sets/nails3.png'),
+        require('../assets/nail-sets/nails4.png'),
+        require('../assets/nail-sets/nails5.png'),
+        require('../assets/nail-sets/nails6.png'),
+
+    ];
 
     return (
         <SafeAreaView style={styles.container}>
@@ -149,12 +158,12 @@ const Account = ({ navigation }) => {
             )}
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.posts}>
-                    {links && links.map(item => (
+                    {links && links.map((item, index) => (
                         // <View key={item._id} style={{ alignItems: "left" }}>
                         <View style={styles.box}>
                             <View style={styles.boxImageView}>
                                 <Image style={styles.boxImage}
-                                    source={nails_image} />
+                                    source={nailsets[index % nailsets.length]} />
                             </View>
                             <View style={{ position: "absolute", bottom: '10%', right: 15 }}>
                                 <Text style={styles.viewText}>{item.views}</Text>
