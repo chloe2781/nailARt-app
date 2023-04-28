@@ -27,6 +27,7 @@ const NavigationScreen = () => {
     return (
         <>
             <Stack.Navigator initialRouteName="Home" screenOptions={{
+                animation: 'none',
                 headerShown: false,
                 contentStyle: { backgroundColor: theme.colors.primary_white },
             }}>
@@ -34,9 +35,15 @@ const NavigationScreen = () => {
                     (
                         <>
                             <Stack.Screen name="Home" component={Home} options={{ headerRight: () => <HeaderTabs /> }} />
-                            <Stack.Screen name="SeeNails" component={SeeNails} />
+                            <Stack.Screen name="SeeNails" component={SeeNails} options={{
+                                animationEnabled: false,
+                                cardStyleInterpolator: () => null
+                            }} />
                             <Stack.Screen name="Post" component={Post} />
-                            <Stack.Screen name="Account" component={Account} />
+                            <Stack.Screen name="Account" component={Account} options={{
+                                animationEnabled: false,
+                                cardStyleInterpolator: () => null
+                            }} />
                             <Stack.Screen name="Links" component={Links} />
                             <Stack.Screen name="LinkView" component={LinkView} />
                             <Stack.Screen name="Saved" component={Saved} />
