@@ -10,6 +10,9 @@ import * as ImagePicker from "expo-image-picker";
 import theme from "../styles/theme.style";
 import { LinkContext } from "../context/link";
 import nails_image from "../assets/nails.png";
+import Saved from "./Saved";
+import { BlurView } from 'expo-blur';
+
 
 const Account = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -154,8 +157,8 @@ const Account = ({ navigation }) => {
                             <Text style={styles.headerStatTitle}>followers</Text>
                         </View>
                     </View>
-
-                    <TouchableOpacity style={styles.saveButton}>
+                    {/* Go to Saved screen */}
+                    <TouchableOpacity style={styles.saveButton} onPress={() => navigation.navigate("Saved")}>
                         <Text style={styles.saveButtonText}><FontAwesome5 name="bookmark" solid style={styles.saveIcon} />  saved</Text>
                     </TouchableOpacity>
                 </View>
@@ -188,12 +191,14 @@ const Account = ({ navigation }) => {
                         // </View>
                     ))}
                     <Modal visible={modalVisible} transparent style={styles.modalView}>
-                        <TouchableOpacity
-                            style={styles.modalBackground}
-                            onPress={() => setModalVisible(false)}
-                        >
-                            <Image source={selectedImage} style={styles.modalImage} />
-                        </TouchableOpacity>
+                        <BlurView style={styles.blur} blurType="dark" blurAmount={10}>
+                            <TouchableOpacity
+                                style={styles.modalBackground}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Image source={selectedImage} style={styles.modalImage} />
+                            </TouchableOpacity>
+                        </BlurView>
                     </Modal>
                 </View>
             </ScrollView>
@@ -404,7 +409,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "center",
         width: '90%',
-        top: '5%',
         marginVertical: '60%',
         borderRadius: 30,
         shadowColor: "#171717",
@@ -417,6 +421,15 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 8,
+    },
+    blur: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        alignItems: "center",
+        justifyContent: "center",
     },
 
 });

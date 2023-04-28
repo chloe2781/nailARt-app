@@ -12,6 +12,7 @@ import ForgotPassword from "../screens/ForgotPassword";
 import LinkView from "../screens/LinkView";
 import theme from "../styles/theme.style";
 import SeeNails from "../screens/SeeNails";
+import Saved from "../screens/Saved";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,7 @@ const NavigationScreen = () => {
                             <Stack.Screen name="Account" component={Account} />
                             <Stack.Screen name="Links" component={Links} />
                             <Stack.Screen name="LinkView" component={LinkView} />
+                            <Stack.Screen name="Saved" component={Saved} />
                         </>
                     ) : (
                         <>
