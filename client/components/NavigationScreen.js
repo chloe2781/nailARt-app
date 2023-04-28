@@ -14,6 +14,7 @@ import theme from "../styles/theme.style";
 import SeeNails from "../screens/SeeNails";
 import Saved from "../screens/Saved";
 import { LogBox } from "react-native";
+import Design from "../screens/Design";
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 
@@ -39,6 +40,8 @@ const NavigationScreen = () => {
                             <Stack.Screen name="Links" component={Links} />
                             <Stack.Screen name="LinkView" component={LinkView} />
                             <Stack.Screen name="Saved" component={Saved} />
+                            <Stack.Screen name="Design" component={Design} />
+
                         </>
                     ) : (
                         <>

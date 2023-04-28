@@ -7,11 +7,12 @@ import theme from "../styles/theme.style";
 import AppLoading from "expo-app-loading";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as MediaLibrary from 'expo-media-library';
+import Design from './Design';
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
-export default function SeeNails() {
+const SeeNails = ({ navigation }) => {
     const [startCamera, setStartCamera] = useState(false);
     const [previewVisible, setPreviewVisible] = useState(false);
     const [capturedImage, setCapturedImage] = useState(null);
@@ -151,6 +152,11 @@ export default function SeeNails() {
                         <View style={styles.buttonContainer} >
                             <TouchableOpacity onPress={__takePicture} style={styles.button} />
                         </View>
+                        <View style={styles.designButtonContainer} >
+                            <TouchableOpacity onPress={() => navigation.navigate("Design")} style={styles.designButton}>
+                                <FontAwesome5 name="palette" style={{ fontSize: 25, color: theme.colors.primary_white }} />
+                            </TouchableOpacity>
+                        </View>
                         <ScrollView horizontal={true}
                             snapToAlignment="center"
                             snapToInterval={80}
@@ -241,5 +247,26 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 2,
         borderColor: theme.colors.pinky,
-    }
+    },
+    designButtonContainer: {
+        position: 'absolute',
+        alignSelf: 'center',
+        flex: 1,
+        alignItems: 'center',
+        zIndex: 1,
+        bottom: 200,
+    },
+    designButton: {
+        width: 45,
+        height: 45,
+        borderRadius: 50,
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderColor: theme.colors.pinky,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
 })
+
+export default SeeNails;
