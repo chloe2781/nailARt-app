@@ -12,6 +12,9 @@ import SeeNails from './screens/SeeNails';
 import { StyleSheet, Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 // import { Camera } from 'expo-camera';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 // SplashScreen.preventAutoHideAsync()
 

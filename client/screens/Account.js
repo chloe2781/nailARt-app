@@ -12,7 +12,9 @@ import { LinkContext } from "../context/link";
 import nails_image from "../assets/nails.png";
 import Saved from "./Saved";
 import { BlurView } from 'expo-blur';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['Warning: ...']);
 
 const Account = ({ navigation }) => {
     const [email, setEmail] = useState("");

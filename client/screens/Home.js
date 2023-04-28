@@ -10,7 +10,8 @@ import AppLoading from "expo-app-loading";
 import nails_image from "../assets/nails.png";
 import { AuthContext } from "../context/auth";
 import * as Sharing from 'expo-sharing';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
 
 const Home = ({ navigation }) => {
     let [fontsLoaded] = theme.useFonts();

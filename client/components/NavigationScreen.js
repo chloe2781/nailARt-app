@@ -13,6 +13,9 @@ import LinkView from "../screens/LinkView";
 import theme from "../styles/theme.style";
 import SeeNails from "../screens/SeeNails";
 import Saved from "../screens/Saved";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 
 const Stack = createNativeStackNavigator();
 

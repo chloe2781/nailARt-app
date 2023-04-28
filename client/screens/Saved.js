@@ -29,7 +29,7 @@ const Saved = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container} >
             <View style={styles.header}>
-                <Text style={styles.signupText}><FontAwesome5 name="bookmark" solid style={styles.headerIcon} /> saved </Text>
+                <Text style={styles.signupText}><FontAwesome5 name="bookmark" solid style={styles.headerIcon} />  saved </Text>
             </View>
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <View style={styles.backButtonContainer}>
@@ -42,7 +42,7 @@ const Saved = ({ navigation }) => {
                 <View style={styles.posts}>
 
                     {nailsets.map((nailset, index) => (
-                        <View style={styles.box}>
+                        <View key={nailset} style={styles.box}>
                             <TouchableOpacity style={styles.boxImageView}
                                 onPress={() => handleImagePress(nailsets[index % nailsets.length])}
                             >

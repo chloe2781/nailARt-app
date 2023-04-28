@@ -7,7 +7,9 @@ import theme from "../styles/theme.style";
 import AppLoading from "expo-app-loading";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as MediaLibrary from 'expo-media-library';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export default function SeeNails() {
     const [startCamera, setStartCamera] = useState(false);
