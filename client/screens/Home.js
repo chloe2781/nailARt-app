@@ -8,6 +8,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import theme from "../styles/theme.style";
 import AppLoading from "expo-app-loading";
 import nails_image from "../assets/nails.png";
+import { AuthContext } from "../context/auth";
 
 
 const Home = ({ navigation }) => {
@@ -15,7 +16,20 @@ const Home = ({ navigation }) => {
     const [links, setLinks] = useContext(LinkContext);
     const [bookmarkedLinks, setBookmarkedLinks] = useState([]);
     const [bookmarkCounts, setBookmarkCounts] = useState(0);
+    const [name, setName] = useState("");
+    const [image, setImage] = useState({
+        url: "",
+        public_id: ""
+    });
+    const [state, setState] = useContext(AuthContext);
 
+    useEffect(() => {
+        if (state) {
+            const { name, email, role, image } = state.user;
+            setName(name);
+            setImage(image);
+        }
+    }, [state]);
 
 
     useEffect(() => {
@@ -78,6 +92,7 @@ const Home = ({ navigation }) => {
                     <Text style={styles.subText}>inspirations</Text>
                     {links && links.map((item, index) => (
                         <View key={item._id} style={{ alignItems: "left" }}>
+                            <Image source={{ uri: image.url }} style={styles.imageStyles} />
                             <View style={styles.box}>
                                 <View style={styles.boxImageView}>
 
@@ -163,6 +178,17 @@ const styles = StyleSheet.create({
         color: theme.colors.dark_blue,
         textAlign: "center",
         fontFamily: theme.fonts.ss_regular,
+    },
+    imageStyles: {
+        position: "absolute",
+        // align on the right
+        top: 20,
+        right: 15,
+        width: 70,
+        height: 70,
+        // marginVertical: 20,
+        borderRadius: 100,
+        zIndex: 2,
     },
     box: {
         width: "89%",

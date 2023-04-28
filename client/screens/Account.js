@@ -160,7 +160,7 @@ const Account = ({ navigation }) => {
                 <View style={styles.posts}>
                     {links && links.map((item, index) => (
                         // <View key={item._id} style={{ alignItems: "left" }}>
-                        <View style={styles.box}>
+                        <View key={item._id} style={styles.box}>
                             <View style={styles.boxImageView}>
                                 <Image style={styles.boxImage}
                                     source={nailsets[index % nailsets.length]} />
