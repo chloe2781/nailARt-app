@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, ScrollView, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, SafeAreaView, ScrollView, View, TouchableOpacity, Image, Share, Alert } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { LinkContext } from "../context/link";
 import axios from "axios";
@@ -9,6 +9,7 @@ import theme from "../styles/theme.style";
 import AppLoading from "expo-app-loading";
 import nails_image from "../assets/nails.png";
 import { AuthContext } from "../context/auth";
+import * as Sharing from 'expo-sharing';
 
 
 const Home = ({ navigation }) => {
@@ -82,6 +83,27 @@ const Home = ({ navigation }) => {
 
     ];
 
+    const onShare = async (image) => {
+        try {
+            const result = await Share.share({
+                url: image,
+                message: 'Check out these nails!'
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            Alert.alert(error.message);
+        }
+    };
+
+
     if (!fontsLoaded) {
         return <AppLoading />;
     } else {
@@ -129,9 +151,11 @@ const Home = ({ navigation }) => {
                                         )}
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{ position: "absolute", bottom: '18%', right: 10 }}>
-                                    <FontAwesome5 name="share-square" solid size={22} color={theme.colors.post_background} />
-                                </View>
+                                <TouchableOpacity onPress={() => onShare(nailsets[index % nailsets.length].url)}>
+                                    <View style={{ position: "absolute", bottom: '18%', right: 10 }}>
+                                        <FontAwesome5 name="share-square" solid size={22} color={theme.colors.post_background} />
+                                    </View>
+                                </TouchableOpacity>
                                 <TouchableOpacity onPress={() => handlePress(item)}>
                                     <View style={{ padding: 5, height: 50 }}>
                                         <Text style={styles.boxText}>{item.title}</Text>
