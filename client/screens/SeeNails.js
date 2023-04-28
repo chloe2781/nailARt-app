@@ -181,11 +181,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgrountColor: 'transparent',
-        paddingBottom: 30
+        paddingBottom: 35
     },
     imageContainer: {
         flex: 1,
-        paddingBottom: 30
+        paddingBottom: 35
     },
     imageContainerInner: {
         flex: 2,

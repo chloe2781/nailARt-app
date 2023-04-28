@@ -88,7 +88,7 @@ const Home = ({ navigation }) => {
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={styles.mainText}> <FontAwesome5 name="globe-asia" solid style={styles.headerIcon} /> explore </Text>
+                    <Text style={styles.mainText}> <FontAwesome5 name="globe-asia" solid style={styles.headerIcon} />  explore </Text>
                     <Text style={styles.subText}>inspirations</Text>
                     {links && links.map((item, index) => (
                         <View key={item._id} style={{ alignItems: "left" }}>

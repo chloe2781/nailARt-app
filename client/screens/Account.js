@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, SafeAreaView, ScrollView, Dimensions, Modal } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React, { useContext, useEffect, useState } from "react";
 import FooterList from "../components/footer/FooterList";
@@ -22,6 +22,12 @@ const Account = ({ navigation }) => {
     });
     const [state, setState] = useContext(AuthContext);
     const [uploadImage, setUploadImage] = useState("");
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedImage, setSelectedImage] = useState("");
+
+    const { width } = Dimensions.get("window");
+
     useEffect(() => {
         if (state) {
             const { name, email, role, image } = state.user;
@@ -31,6 +37,11 @@ const Account = ({ navigation }) => {
             setImage(image);
         }
     }, [state]);
+
+    const handleImagePress = (image) => {
+        setSelectedImage(image);
+        setModalVisible(true);
+    };
 
     const handleSubmit = async () => {
         try {
@@ -161,10 +172,14 @@ const Account = ({ navigation }) => {
                     {links && links.map((item, index) => (
                         // <View key={item._id} style={{ alignItems: "left" }}>
                         <View key={item._id} style={styles.box}>
-                            <View style={styles.boxImageView}>
+                            {/* <View style={styles.boxImageView}> */}
+                            <TouchableOpacity style={styles.boxImageView}
+                                onPress={() => handleImagePress(nailsets[index % nailsets.length])}
+                            >
                                 <Image style={styles.boxImage}
                                     source={nailsets[index % nailsets.length]} />
-                            </View>
+                            </TouchableOpacity>
+                            {/* </View> */}
                             <View style={{ position: "absolute", bottom: '10%', right: 15 }}>
                                 <Text style={styles.viewText}>{item.views}</Text>
                                 <FontAwesome5 name="bookmark" solid size={22} color={theme.colors.yellow_mellow} />
@@ -172,6 +187,14 @@ const Account = ({ navigation }) => {
                         </View>
                         // </View>
                     ))}
+                    <Modal visible={modalVisible} transparent style={styles.modalView}>
+                        <TouchableOpacity
+                            style={styles.modalBackground}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <Image source={selectedImage} style={styles.modalImage} />
+                        </TouchableOpacity>
+                    </Modal>
                 </View>
             </ScrollView>
             {/* <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -366,6 +389,34 @@ const styles = StyleSheet.create({
         color: theme.colors.yellow_mellow,
         textAlign: "center",
         fontFamily: theme.fonts.ss_regular,
+    },
+    modalView: {
+        // flex: 1,
+        // justifyContent: "center",
+        // alignItems: "center",
+        // marginTop: 22,
+        // width: '100%',
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: theme.colors.post_background,
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
+        width: '90%',
+        top: '5%',
+        marginVertical: '60%',
+        borderRadius: 30,
+        shadowColor: "#171717",
+        shadowOffset: { width: 8, height: 8 },
+        shadowOpacity: 0.15,
+        shadowRadius: 10,
+    },
+    modalImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        borderRadius: 8,
     },
 
 });
